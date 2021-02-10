@@ -10,19 +10,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: ExtractFiles@1
+- task: CmdLine@2
   inputs:
-    archiveFilePatterns: '*.zip'
-    destinationFolder: '$(Build.SourcesDirectory)'
-    cleanDestinationFolder: false
+    script: |
+      javac AddTwoNumbers.java
+      java AddTwoNumbers
 
-- task: Maven@3
-  inputs:
-    mavenPomFile: '$(System.DefaultWorkingDirectory)/{zip file name}/pipelines-java-function-master/pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package'
